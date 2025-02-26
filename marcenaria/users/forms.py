@@ -8,12 +8,15 @@ class LoginForm(ModelForm):
         fields = ['username', 'password']
         widgets = {
             'username': forms.TextInput(attrs={
-                'class':'form-control form-control-lg',
-                'placeholder':'Usuário'
+                'class':'form-control',
+                'placeholder':'Usuário',
+                'autocomplete': 'off'
             }),
             'password': forms.PasswordInput(attrs={
-                'class':'form-control form-control-lg',
-                'placeholder': 'Senha'
+                'class':'form-control',
+                'placeholder': 'Senha',
+                'autocomplete': 'off'
+                
             })
         }
 
