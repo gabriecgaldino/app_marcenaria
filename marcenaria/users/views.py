@@ -8,8 +8,6 @@ def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST or None)
 
-        
-
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -21,6 +19,5 @@ def login_view(request):
                 messages.success(request, 'Usuário conectado')
             else:
                 messages.warning(request, 'Usuário não está cadastrado')
-                
         
     return render(request, 'login.html', {'form': form})

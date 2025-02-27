@@ -16,7 +16,6 @@ class LoginForm(ModelForm):
                 'class':'form-control',
                 'placeholder': 'Senha',
                 'autocomplete': 'off'
-                
             })
         }
 
