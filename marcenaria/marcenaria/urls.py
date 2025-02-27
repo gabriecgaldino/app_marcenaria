@@ -24,5 +24,5 @@ from orders.views import create_order_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', login_view, name='login'),
-    path('orders/', include('urls.orders')),
+    path('orders/', include('orders.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
