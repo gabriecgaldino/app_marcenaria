@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from datetime import date
 
 def upload_path(instance, filename):
     return f'orders/{instance.orders.id}/{instance.stage}/{filename}'
@@ -11,17 +11,20 @@ class Order(models.Model):
     status = models.BooleanField(default=False)
     description = models.TextField(max_length=350)
     term = models.DateField(blank=False, null=False)
-    created_At = models.DateField(default=datetime.today(), blank=False, null=False)
-    updated_At = models.DateField(max_length=datetime.today())
+    created_At = models.DateField(default=date.today(), blank=False, null=False)
+    updated_At = models.DateField(default=date.today(), max_length=date.today())
 
     def save(self, *args, **kwargs):
-        if not self.order_number:
-            last_order = Order.objects.order_by('-created_At').first()
-            if last_order:
-                last_number = int(last_order.order_number[:3])
-                self.order_number = f'ORD{last_number + 1:06d}'
+        if not self.order_number:  # Gera um número apenas se não existir
+            last_order = Order.objects.order_by('-id').first()
+            
+            if last_order and last_order.order_number.startswith("ORD-"):
+                last_number = int(last_order.order_number.split('-')[1])  # Pega apenas a parte numérica
             else:
-                self.order_number = 'ORD000001'
+                last_number = 0  # Se não houver pedidos anteriores, começa em 0
+            
+            self.order_number = f"ORD-{last_number + 1:03d}"  # ORD-001, ORD-002, etc.
+
         super().save(*args, **kwargs)
 
 class Stage(models.Model):

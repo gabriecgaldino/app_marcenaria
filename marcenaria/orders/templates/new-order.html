@@ -1,0 +1,24 @@
+{% load static %}
+<a href="">Novo Pedido</a>
+<div class="new-order">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="customer_name">Nome do Cliente</label>
+            {{form_order.customer_name}}
+        </div>
+        <div class="input-group">
+            <label for="product_name">Produto</label>
+            {{form_order.product_name}}
+        </div>
+        <div class="input-group">
+            <label for="description">Descrição</label>
+            {{form_order.description}}
+        </div>
+        <div class="input-group">
+            <label for="term">Prazo de entrega</label>
+            {{form_order.term}}
+        </div>
+        <button type="submit">Salvar</button>
+    </form>
+</div>

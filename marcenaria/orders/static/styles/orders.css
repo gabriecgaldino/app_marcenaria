@@ -1,0 +1,35 @@
+.order, .row, .row-details {
+    display: flex;
+}
+
+.row, .order {
+    justify-content: space-between;
+}
+
+.order, .order-expired {
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    height: 130px;
+
+    font-size: 22px;
+
+    background-color: rgb(0, 87, 74);
+    border: solid 3px rgb(31, 31, 31);
+    border-radius: 15px;
+
+    color: white;
+}
+
+.order-expired {
+    background-color: rgb(171, 0, 0) !important;
+}
+
+.row{
+    flex-direction: row;
+}
+
+.row-details {
+    flex-direction: column;
+}
+

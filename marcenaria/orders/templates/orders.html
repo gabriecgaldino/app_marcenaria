@@ -1,0 +1,31 @@
+{% load static %}
+{% block 'css' %}
+    <link rel="stylesheet" href="{% static 'styles/orders.css' %}">
+{% endblock %}
+<div class="orders">
+    {% for order in orders %}
+        {% if order.term <= today %}
+            <div class="order-expired">
+                <div class="row">
+                    <p>{{order.order_number}}</p>
+                    <p>{{order.term}}</p>
+                </div>
+                <div class="row-details">
+                    <p>{{order.customer_name}}</p>
+                    <p>{{order.product_name}}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="order">
+                <div class="row">
+                    <p>{{order.order_number}}</p>
+                    <p>{{order.term}}</p>
+                </div>
+                <div class="row-details">
+                    <p>{{order.customer_name}}</p>
+                    <p>{{order.product_name}}</p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
