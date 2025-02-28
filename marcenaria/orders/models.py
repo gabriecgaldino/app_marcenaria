@@ -13,6 +13,7 @@ class Order(models.Model):
     term = models.DateField(blank=False, null=False)
     created_At = models.DateField(default=date.today(), blank=False, null=False)
     updated_At = models.DateField(default=date.today(), max_length=date.today())
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.order_number:  # Gera um número apenas se não existir

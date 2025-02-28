@@ -24,7 +24,7 @@ def create_order_view(request):
         else:
             messages.error(request, 'Erro ao criar pedido, tente novamente!')
             redirect('/orders/')
-    orders = Order.objects.all()
+    orders = Order.objects.filter(is_active=True)
     today = date.today()
 
     return render(request, 'index.html', {'form_order': form_order,
@@ -33,10 +33,14 @@ def create_order_view(request):
                                           })
 
 def delete_order_view(request, order_number):
-        order = get_object_or_404(Order, order_number=order_number)
-        order.delete()
+    order = get_object_or_404(Order, order_number=order_number)
+        
+    if order.is_active:
+        order.is_active = False
+        order.save()
         messages.success(request, 'Pedido Removido!')
-        return redirect('/orders/')
+
+    return redirect('/orders/')
 
 
 def edit_order_view(request, order_number):
