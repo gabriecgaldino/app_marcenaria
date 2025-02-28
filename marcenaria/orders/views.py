@@ -4,6 +4,10 @@ from datetime import date
 from .forms import OrderForm
 from .models import Stage, Order
 
+def list_orders_view(request):
+    orders = Order.objects.filter(is_active=True)
+    return render(request, 'index.html', {'orders': orders})
+
 def create_order_view(request):
     form_order = OrderForm()
 
@@ -24,12 +28,12 @@ def create_order_view(request):
         else:
             messages.error(request, 'Erro ao criar pedido, tente novamente!')
             redirect('/orders/')
-    orders = Order.objects.filter(is_active=True)
+    
     today = date.today()
 
-    return render(request, 'index.html', {'form_order': form_order,
-                                          'orders': orders,
-                                          'today': today
+    return render(request, 'new-order.html', {
+                                            'form_order': form_order,
+                                            'today': today
                                           })
 
 def delete_order_view(request, order_number):

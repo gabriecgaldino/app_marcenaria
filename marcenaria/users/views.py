@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -17,7 +17,7 @@ def login_view(request):
             if user:
                 login(request, user)
                 messages.success(request, 'Usuário conectado')
-                next('/orders/')
+                return redirect('/orders/')
             else:
                 messages.warning(request, 'Usuário não está cadastrado')
         
