@@ -17,6 +17,7 @@ def login_view(request):
             if user:
                 login(request, user)
                 messages.success(request, 'Usuário conectado')
+                next('/orders/')
             else:
                 messages.warning(request, 'Usuário não está cadastrado')
         
