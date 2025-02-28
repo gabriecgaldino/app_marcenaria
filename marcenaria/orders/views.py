@@ -20,7 +20,7 @@ def create_order_view(request):
             
             init_stage.save()
             messages.success(request, 'Pedido criado!')
-            return redirect('/pedidos/')
+            return redirect('/orders/')
         else:
             messages.error(request, 'Erro ao criar pedido, tente novamente!')
             redirect('/pedidos/')
@@ -32,15 +32,14 @@ def create_order_view(request):
                                           'today': today
                                           })
 
-def delete_order_view(request, order_id):
-    if request.method == 'POST' and request.POST.get('_method') == 'DELETE':
-        order = get_object_or_404(Order, id=order_id)
+def delete_order_view(request, order_number):
+        order = get_object_or_404(Order, order_number=order_number)
         order.delete()
         messages.success(request, 'Pedido Removido!')
-        return redirect('/pedidos/')
-    else:
-        messages.error(request, 'Método não permitido')
+        return redirect('/orders/')
 
-    return render(request, 'order.html')
+
+def edit_order_view(request, order_number):
+     return
 
 

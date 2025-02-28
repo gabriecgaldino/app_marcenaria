@@ -13,6 +13,7 @@
                 <div class="row-details">
                     <p>{{order.customer_name}}</p>
                     <p>{{order.product_name}}</p>
+                    <a href="{% url 'remove_order' order.order_number %}">Apagar</a>
                 </div>
             </div>
         {% else %}
@@ -24,6 +25,7 @@
                 <div class="row-details">
                     <p>{{order.customer_name}}</p>
                     <p>{{order.product_name}}</p>
+                    <a href="{% url 'remove_order' order.order_number %}">Apagar</a>
                 </div>
             </div>
         {% endif %}
