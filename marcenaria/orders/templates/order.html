@@ -1,0 +1,21 @@
+{% load static %}
+<form action="." method="post">
+    {% csrf_token %}
+    <div class="customer-name">
+        {{ form_edit.customer_name }}
+    </div>
+    <div class="product_name">
+        {{ form_edit.product_name }}
+    </div>
+    <div class="description">
+        {{ form_edit.description }}
+    </div>
+    <div class="term">
+        {{ form_edit.term }}
+    </div>
+
+    <div class="options">
+        <button type="submit">Editar</button>
+        <a href="">Excluir</a>
+    </div>
+</form>

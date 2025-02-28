@@ -20,10 +20,10 @@ def create_order_view(request):
             
             init_stage.save()
             messages.success(request, 'Pedido criado!')
-            return redirect('/orders/')
+            redirect('/orders/')
         else:
             messages.error(request, 'Erro ao criar pedido, tente novamente!')
-            redirect('/pedidos/')
+            redirect('/orders/')
     orders = Order.objects.all()
     today = date.today()
 
@@ -40,6 +40,24 @@ def delete_order_view(request, order_number):
 
 
 def edit_order_view(request, order_number):
-     return
+    order = get_object_or_404(Order, order_number=order_number)
+
+    if not order:
+        messages.error(request, 'Não foi possível localizar o pedido.')
+        redirect('/orders/')
+
+    if request.method == 'POST':
+        form_edit = OrderForm(request.POST, instance=order)
+
+        if form_edit.is_valid():
+            form_edit.save()
+            messages.success(request, 'Pedido atualizado!')
+            redirect('/orders/')
+        else:
+            messages.error(request, 'Verifique os dados informados e tente novamente')
+        
+    form_edit = OrderForm(instance=order)
+
+    return render(request, 'order.html', {'form_edit': form_edit})
 
 
