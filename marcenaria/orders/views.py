@@ -3,6 +3,7 @@ from django.contrib import messages
 from datetime import date
 from .forms import OrderForm
 from .models import Stage, Order
+from .middleware import set_stage_completed
 
 def list_orders_view(request):
     orders = Order.objects.filter(is_active=True)
@@ -33,7 +34,6 @@ def create_order_view(request):
     
     today = date.today()
     
-
     return render(request, 'new-order.html', {
                                             'form_order': form_order,
                                             'today': today
@@ -59,12 +59,12 @@ def edit_order_view(request, order_number):
         if form_edit.is_valid():
             form_edit.save()
 
-            # Captura a etapa selecionada no formulário
             selected_stage = request.POST.get('order_stage')
 
-            # Atualiza a etapa apenas se for uma seleção válida
             if selected_stage in dict(Stage.STAGE_CHOICE):
                 Stage.objects.create(order=order, stage=selected_stage)
+
+                set_stage_completed(order)
 
             messages.success(request, 'Pedido atualizado!')
             return redirect('/orders/')
@@ -77,5 +77,6 @@ def edit_order_view(request, order_number):
     return render(request, 'order.html', {'form_edit': form_edit,
                                           'stages': stages,
                                           'order': order})
+
 
 
