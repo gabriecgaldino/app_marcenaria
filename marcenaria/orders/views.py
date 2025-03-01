@@ -19,10 +19,12 @@ def create_order_view(request):
             order.save()
 
             init_stage = Stage(
-                order_number = order,
+                order = order,
             )
-            
+
             init_stage.save()
+
+            
             messages.success(request, 'Pedido criado!')
             redirect('/orders/')
         else:
@@ -30,6 +32,7 @@ def create_order_view(request):
             redirect('/orders/')
     
     today = date.today()
+    
 
     return render(request, 'new-order.html', {
                                             'form_order': form_order,
@@ -50,22 +53,29 @@ def delete_order_view(request, order_number):
 def edit_order_view(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
 
-    if not order:
-        messages.error(request, 'Não foi possível localizar o pedido.')
-        redirect('/orders/')
-
     if request.method == 'POST':
         form_edit = OrderForm(request.POST, instance=order)
 
         if form_edit.is_valid():
             form_edit.save()
+
+            # Captura a etapa selecionada no formulário
+            selected_stage = request.POST.get('order_stage')
+
+            # Atualiza a etapa apenas se for uma seleção válida
+            if selected_stage in dict(Stage.STAGE_CHOICE):
+                Stage.objects.create(order=order, stage=selected_stage)
+
             messages.success(request, 'Pedido atualizado!')
-            redirect('/orders/')
+            return redirect('/orders/')
         else:
             messages.error(request, 'Verifique os dados informados e tente novamente')
-        
-    form_edit = OrderForm(instance=order)
 
-    return render(request, 'order.html', {'form_edit': form_edit})
+    form_edit = OrderForm(instance=order)
+    stages = Stage.STAGE_CHOICE
+
+    return render(request, 'order.html', {'form_edit': form_edit,
+                                          'stages': stages,
+                                          'order': order})
 
 

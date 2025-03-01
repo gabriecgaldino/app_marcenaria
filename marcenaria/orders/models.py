@@ -16,15 +16,15 @@ class Order(models.Model):
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
-        if not self.order_number:  # Gera um número apenas se não existir
+        if not self.order_number:  
             last_order = Order.objects.order_by('-id').first()
             
             if last_order and last_order.order_number.startswith("ORD-"):
-                last_number = int(last_order.order_number.split('-')[1])  # Pega apenas a parte numérica
+                last_number = int(last_order.order_number.split('-')[1])  
             else:
-                last_number = 0  # Se não houver pedidos anteriores, começa em 0
+                last_number = 0  
             
-            self.order_number = f"ORD-{last_number + 1:03d}"  # ORD-001, ORD-002, etc.
+            self.order_number = f"ORD-{last_number + 1:03d}"  
 
         super().save(*args, **kwargs)
 
@@ -40,8 +40,9 @@ class Stage(models.Model):
         ('ENT', 'Pronto para retirada/entrega')
     ]
 
-    stage = models.CharField(max_length=3, choices=STAGE_CHOICE, default='ORC')
-    order_number = models.ForeignKey(Order, on_delete=models.CASCADE, blank=False, null=False)
+    status = models.BooleanField(default=False)
+    stage = models.CharField(max_length=3, choices=STAGE_CHOICE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=False, null=False, related_name='stages')
     pictures = models.ImageField(upload_to=upload_path, null=True, blank=True)
 
     def get_stage(self):
