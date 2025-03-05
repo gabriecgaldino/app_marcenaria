@@ -37,13 +37,12 @@
                         <div class="form-control-plaintext">{{ form_edit.term }}</div>
                     </div>
 
-                    <!-- NOVA SESSÃO: SELEÇÃO DA ETAPA DO PEDIDO -->
                     <div class="mb-3">
                         <label for="order_stage" class="form-label">Etapa do Pedido</label>
                         <select class="form-select" id="order_stage" name="order_stage">
-                            {% for code, label in stages %}
-                                <option value="{{ code }}" {% if order.stages.last.stage == code %}selected{% endif %}>
-                                    {{ label }}
+                            {% for stage_code, stage_name in stages %}
+                                <option value="{{ stage_code }}" {% if current_stage and current_stage.stage == stage_code %}selected{% endif %}>
+                                    {{ stage_name }}
                                 </option>
                             {% endfor %}
                         </select>
