@@ -19,7 +19,7 @@
                 <!-- Logo e Nome do Usuário -->
                 <div class="d-flex align-items-center">
                     <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}{% static 'images/default_profile_image.png' %}{% endif %}" alt="Imagem do Usuário" class="rounded-circle" width="40" height="40">
-                    <span class="ms-2 text-white">Nome do Usuário</span>
+                    <span class="ms-2 text-white">{{user.first_name}} {{user.last_name}}</span>
                 </div>
                 <!-- Botão para abrir/fechar o menu em dispositivos pequenos -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
