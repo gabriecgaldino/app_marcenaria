@@ -40,7 +40,7 @@
 
                     <div class="mb-3">
                         <label for="order_stage" class="form-label">Etapa do Pedido</label>
-                        <select class="form-select" id="order_stage" name="order_stage">
+                        <select class="form-select" id="order_stage" name="order_stage" disabled>
                             {% for stage_code, stage_name in stages %}
                                 <option value="{{ stage_code }}" {% if current_stage and current_stage.stage == stage_code %}selected{% endif %}>
                                     {{ stage_name }}
@@ -51,8 +51,8 @@
                     <div class="mb-3 mt-4">
                         <a href="{% url 'update_stage' order_number=order.order_number stage_id=current_stage.id %}">Adicionar imagens</a>
                     </div>
-                    <div class="d-flex justify-content-end mt-4" id="submit">
-                        <button class="btn btn-primary">Editar</button>
+                    <div class="d-flex justify-content-end mt-4" >
+                        <button class="btn btn-primary" id="submit">Editar</button>
                     </div>
                 </form>
             </div>
