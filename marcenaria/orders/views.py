@@ -102,8 +102,9 @@ def add_stage_photo(request, order_number, stage_id):
     if request.method == 'POST' and request.FILES.get('image'):
         image = request.FILES['image']  # Obtém a imagem do formulário
 
-        # Salva no banco de dados
-        Stage.objects.create(stage=stage, pictures=image, order=order)
+        stage.pictures = image
+
+        stage.save()
 
         return redirect('update_stage', order_number=order_number, stage_id=stage_id)
     else:

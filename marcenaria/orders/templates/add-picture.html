@@ -40,16 +40,16 @@
             </div>
         </div>
 
-        <div class="card shadow-sm">
+        <div class="card shadow-sm mt-4">
             {% if stage.pictures %}
-                <img src="{{ stage.pictures }}" class="img-fluid" alt="Foto da etapa">
+                <img src="{{ stage.pictures.url }}" class="img-fluid" alt="Foto da etapa">
             {% else %}
                 <p>Sem foto disponível</p>
             {% endif %}
         </div>
     
         <div class="mt-4 text-center">
-            <a href="" class="btn btn-secondary">Voltar para Detalhes do Pedido</a>
+            <a href="{% url 'edit_order' order_number=order.order_number %}" class="btn btn-secondary">Voltar para Detalhes do Pedido</a>
         </div>
     </div>
     
