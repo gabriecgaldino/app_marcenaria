@@ -100,7 +100,7 @@ def add_stage_photo(request, order_number, stage_id):
     order = get_object_or_404(Order, order_number=order_number)
 
     if request.method == 'POST' and request.FILES.get('image'):
-        image = request.FILES['image']  # Obtém a imagem do formulário
+        image = request.FILES['image']  
 
         stage.pictures = image
 
