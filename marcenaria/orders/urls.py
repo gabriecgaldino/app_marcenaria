@@ -9,7 +9,4 @@ urlpatterns = [
     path('remove/<str:order_number>/', views.delete_order_view, name='remove_order'),
     path('<str:order_number>/', views.edit_order_view, name='edit_order'),
     path('<str:order_number>/<int:stage_id>/', views.add_stage_photo, name='update_stage')
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
