@@ -2,7 +2,9 @@ from django.db import models
 from datetime import date
 
 def upload_path(instance, filename):
-    return f'orders/{instance.orders.id}/{instance.stage}/{filename}'
+    if instance.order_id:
+        return f'orders/{instance.order_id}/{instance.stage}/{filename}'
+    return f'orders/unknown/{filename}'
 
 class Order(models.Model):
     order_number = models.CharField(max_length=10, unique=True, blank=False, null=False)

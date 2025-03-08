@@ -98,15 +98,14 @@ def edit_order_view(request, order_number):
 def add_stage_photo(request, order_number, stage_id):
     stage = get_object_or_404(Stage, id=stage_id)
     order = get_object_or_404(Order, order_number=order_number)
-    if request.method == 'POST':
-        form = StagePictureForm(request.POST, request.FILES)
-        
-        if form.is_valid():
-            # Iterando sobre todos os arquivos enviados
-            for file in request.FILES.getlist('photo'):
-                stage_photo = Stage(stage=stage, pictures=file)
-                stage_photo.save()
-            return redirect('order_detail', order_id=stage.order.id)
+
+    if request.method == 'POST' and request.FILES.get('image'):
+        image = request.FILES['image']  # Obtém a imagem do formulário
+
+        # Salva no banco de dados
+        Stage.objects.create(stage=stage, pictures=image, order=order)
+
+        return redirect('update_stage', order_number=order_number, stage_id=stage_id)
     else:
         form = StagePictureForm()
 
