@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from datetime import date
-from .forms import OrderForm
+from .forms import OrderForm, StagePictureForm
 from .models import Stage, Order
 
 def list_orders_view(request):
@@ -49,7 +49,6 @@ def delete_order_view(request, order_number):
 
     return redirect('/orders/')
 
-
 def edit_order_view(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
 
@@ -96,5 +95,23 @@ def edit_order_view(request, order_number):
         'current_stage': current_stage
     })
 
+def add_stage_photo(request, order_number, stage_id):
+    stage = get_object_or_404(Stage, id=stage_id)
+    order = get_object_or_404(Order, order_number=order_number)
+    if request.method == 'POST':
+        form = StagePictureForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            # Iterando sobre todos os arquivos enviados
+            for file in request.FILES.getlist('photo'):
+                stage_photo = Stage(stage=stage, pictures=file)
+                stage_photo.save()
+            return redirect('order_detail', order_id=stage.order.id)
+    else:
+        form = StagePictureForm()
 
+    return render(request, 'add-picture.html', {'form': form,
+                                                'stage': stage,
+                                                'order': order
+                                                })
 

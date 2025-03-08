@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Order
+from .models import Order, Stage
 
 class OrderForm(ModelForm):
     class Meta:
@@ -34,3 +34,10 @@ class OrderForm(ModelForm):
             'placeholder': 'Data do Pedido',
         })
 
+class StagePictureForm(forms.ModelForm):
+    class Meta:
+        model = Stage
+        fields = ['pictures']
+        widgets = {
+            'pictures': forms.FileInput(),
+        }
