@@ -2,32 +2,56 @@
 {% block 'css' %}
     <link rel="stylesheet" href="{% static 'styles/orders.css' %}">
 {% endblock %}
+
 <div class="orders">
     {% for order in orders %}
         {% if order.term <= today %}
-            <div class="order-expired">
-                <div class="row">
-                    <p>{{order.order_number}}</p>
-                    <p>{{order.term}}</p>
-                </div>
-                <div class="row-details">
-                    <p>{{order.customer_name}}</p>
-                    <p>{{order.product_name}}</p>
-                    <a href="{% url 'remove_order' order.order_number %}">Apagar</a>
+            <!-- Pedido Expirado -->
+            <div class="card mb-3 border-danger rounded">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5 class="card-title">{{ order.order_number }}</h5>
+                            <p class="card-text"><strong>Prazo:</strong> {{ order.term|date:"dd/mm/Y" }}</p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <span class="badge bg-danger">Expirado</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p><strong>Cliente:</strong> {{ order.customer_name }}</p>
+                        <p><strong>Produto:</strong> {{ order.product_name }}</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'order_detail' order.order_number %}" class="btn btn-info btn-sm">Ver Detalhes</a>
+                        <a href="{% url 'remove_order' order.order_number %}" class="btn btn-danger btn-sm">Apagar</a>
+                    </div>
                 </div>
             </div>
         {% else %}
-            <div class="order">
-                <div class="row">
-                    <p>{{order.order_number}}</p>
-                    <p>{{order.term}}</p>
-                </div>
-                <div class="row-details">
-                    <p>{{order.customer_name}}</p>
-                    <p>{{order.product_name}}</p>
-                    <a href="{% url 'remove_order' order.order_number %}">Apagar</a>
+            <!-- Pedido Normal -->
+            <div class="card mb-3 border-success rounded">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-2 d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">{{ order.order_number }}</h5>
+                            <span class="badge bg-success mb-0">Em Andamento</span>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text"><strong>Prazo:</strong> {{ order.term }}</p>
+                            <p><strong>Cliente:</strong> {{ order.customer_name }}</p>
+                            <p><strong>Produto:</strong> {{ order.product_name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'edit_order' order.order_number %}" class="btn btn-outline-primary btn-sm">Ver Detalhes</a>
+                        <a href="{% url 'remove_order' order.order_number %}" class="btn btn-danger btn-sm">Apagar</a>
+                    </div>
                 </div>
             </div>
         {% endif %}
+    {% empty %}
+    <p class="text-center">Não existem pedidos</p>
     {% endfor %}
 </div>

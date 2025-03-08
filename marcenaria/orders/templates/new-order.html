@@ -1,24 +1,67 @@
 {% load static %}
-<a href="">Novo Pedido</a>
-<div class="new-order">
-    <form method="POST">
-        {% csrf_token %}
-        <div class="input-group">
-            <label for="customer_name">Nome do Cliente</label>
-            {{form_order.customer_name}}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Pedido</title>
+
+    <!-- Link para o CSS do Bootstrap -->
+    {% block css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    {% endblock %}
+</head>
+
+<body class="bg-light">
+    {% include 'nav.html' %}
+    <div class="container mt-5">
+        <!-- Título da Página -->
+        <h2 class="text-center mb-4">Novo Pedido</h2>
+        <!-- Formulário de Novo Pedido -->
+        <div class="new-order">
+            <form method="POST" class="bg-white p-4 rounded shadow-sm">
+                {% csrf_token %}
+                
+                <!-- Nome do Cliente -->
+                <div class="mb-3">
+                    <label for="customer_name" class="form-label">Nome do Cliente</label>
+                    {{ form_order.customer_name }}
+                </div>
+                
+                <!-- Produto -->
+                <div class="mb-3">
+                    <label for="product_name" class="form-label">Produto</label>
+                    {{ form_order.product_name }}
+                </div>
+                
+                <!-- Descrição -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Descrição</label>
+                    {{ form_order.description }}
+                </div>
+                
+                <!-- Prazo de entrega -->
+                <div class="mb-3">
+                    <label for="term" class="form-label">Prazo de entrega</label>
+                    {{ form_order.term }}
+                </div>
+                
+                <!-- Botão para submeter o formulário -->
+                <div class="mb-4 d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <a href="{% url 'orders' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </form>
         </div>
-        <div class="input-group">
-            <label for="product_name">Produto</label>
-            {{form_order.product_name}}
-        </div>
-        <div class="input-group">
-            <label for="description">Descrição</label>
-            {{form_order.description}}
-        </div>
-        <div class="input-group">
-            <label for="term">Prazo de entrega</label>
-            {{form_order.term}}
-        </div>
-        <button type="submit">Salvar</button>
-    </form>
-</div>
+    </div>
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
