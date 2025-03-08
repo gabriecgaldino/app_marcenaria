@@ -1,21 +1,23 @@
 window.addEventListener('DOMContentLoaded', function() {
-    const send_button = document.getElementById('submit')
-    const inputs = document.querySelectorAll('input, textarea, select');
+    const btnEdit = document.getElementById('submit'); 
+    const form = document.querySelector('form');  
+    const inputs = document.querySelectorAll('input, textarea, select');  
 
-    inputs.forEach(input => {
-        input.setAttribute('disabled', true);
+    let edit = false;  
+
+    btnEdit.addEventListener('click', function(event) {
+        event.preventDefault(); 
+
+        if (!edit) {
+            inputs.forEach(input => input.removeAttribute('disabled'));
+
+            btnEdit.classList.remove('btn-primary');
+            btnEdit.classList.add('btn-success');
+            btnEdit.textContent = 'Salvar';
+
+            edit = true;
+        } else {
+            form.requestSubmit()
+        }
     });
-
-    send_button.addEventListener('click', function(){
-        inputs.forEach(input => {
-            input.removeAttribute('disabled')
-        });
-
-        send_button.textContent = 'Salvar';
-        send_button.setAttribute('type', 'submit')
-    })
-
-    
-
 });
-

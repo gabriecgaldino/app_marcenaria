@@ -3,13 +3,20 @@ from django.contrib import messages
 from datetime import date
 from .forms import OrderForm, StagePictureForm
 from .models import Stage, Order
+from users.models import Users
 
 def list_orders_view(request):
     orders = Order.objects.filter(is_active=True)
-    return render(request, 'index.html', {'orders': orders})
+    user = get_object_or_404(Users, id=request.user.id)
+
+    return render(request, 'index.html', {
+        'orders': orders,
+        'user': user
+        })
 
 def create_order_view(request):
     form_order = OrderForm()
+    user = get_object_or_404(Users, id=request.user.id)
 
     if request.method == 'POST':
         form_order = OrderForm(request.POST or None)
@@ -36,8 +43,10 @@ def create_order_view(request):
     
     return render(request, 'new-order.html', {
                                             'form_order': form_order,
-                                            'today': today
+                                            'today': today,
+                                            'user': user
                                           })
+
 
 def delete_order_view(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
@@ -51,6 +60,7 @@ def delete_order_view(request, order_number):
 
 def edit_order_view(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
+    user = get_object_or_404(Users, id=request.user.id)
 
     if request.method == 'POST':
         form_edit = OrderForm(request.POST, instance=order)
@@ -92,12 +102,14 @@ def edit_order_view(request, order_number):
         'form_edit': form_edit,
         'stages': stage_choices,  
         'order': order,
-        'current_stage': current_stage
+        'current_stage': current_stage,
+        'user': user
     })
 
 def add_stage_photo(request, order_number, stage_id):
     stage = get_object_or_404(Stage, id=stage_id)
     order = get_object_or_404(Order, order_number=order_number)
+    user = get_object_or_404(Users, id=request.user.id)
 
     if request.method == 'POST' and request.FILES.get('image'):
         image = request.FILES['image']  
@@ -112,6 +124,7 @@ def add_stage_photo(request, order_number, stage_id):
 
     return render(request, 'add-picture.html', {'form': form,
                                                 'stage': stage,
-                                                'order': order
+                                                'order': order,
+                                                'user': user
                                                 })
 

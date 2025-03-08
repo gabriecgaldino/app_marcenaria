@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
-from .forms import LoginForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from .forms import LoginForm
+from .models import Users
 
 def login_view(request):
-    print(request.POST)
     form = LoginForm(request.POST or None, data=request.POST)
 
     if request.method == 'POST':
@@ -20,8 +20,21 @@ def login_view(request):
             else:
                 messages.warning(request, 'Usuário não encontrado ou senha incorreta')
         else:
-            print("Erros do formulário:", form.errors)
             messages.error(request, 'Por favor, corrija os erros no formulário.')
 
     return render(request, 'login.html', {'form': form})
+
+def profile_view(request):
+    user = get_object_or_404(Users, id=request.user.id)
+
+    if request.method == 'POST' and request.FILES.get('image'):
+        image = request.FILES['image']
+        user.profile_image = image
+        
+        user.save()
+        messages.success(request, 'Perfil atualizado com sucesso!')
+        return redirect('profile')
+        
+
+    return render(request, 'profile.html', {'user': user})
 
