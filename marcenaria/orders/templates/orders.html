@@ -4,7 +4,7 @@
 
 <div class="orders">
     {% for order in orders %}
-        {% if order.term <= today %}
+        {% if order.term > today %}
             <!-- Pedido Expirado -->
             <div class="card mb-3 border-danger rounded">
                 <div class="card-body">

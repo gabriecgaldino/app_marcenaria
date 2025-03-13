@@ -1,7 +1,10 @@
 window.addEventListener('DOMContentLoaded', function() {
     const btnEdit = document.getElementById('submit'); 
-    const form = document.querySelector('form');  
-    const inputs = document.querySelectorAll('input, textarea, select');  
+    const form = document.querySelector('.edit_order'); // Pegue o formulário correto
+    const inputs = form.querySelectorAll('input, textarea, select'); // Pegue apenas os inputs do formulário
+
+    // Desativa todos os inputs no início
+    inputs.forEach(input => input.setAttribute('disabled', 'disabled'));
 
     let edit = false;  
 
@@ -9,6 +12,7 @@ window.addEventListener('DOMContentLoaded', function() {
         event.preventDefault(); 
 
         if (!edit) {
+            // Habilita os inputs para edição
             inputs.forEach(input => input.removeAttribute('disabled'));
 
             btnEdit.classList.remove('btn-primary');
@@ -17,7 +21,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
             edit = true;
         } else {
-            form.requestSubmit()
+            form.requestSubmit(); // Agora enviará corretamente os dados do formulário certo
         }
     });
 });

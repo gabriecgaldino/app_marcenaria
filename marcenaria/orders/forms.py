@@ -11,24 +11,20 @@ class OrderForm(ModelForm):
         super(OrderForm, self).__init__(*args, **kwargs)
         self.fields['customer_name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': 'Nome do Cliente',
-            'disabled': True
+            'placeholder': 'Nome do Cliente'
         })
         self.fields['product_name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': 'Nome do Produto',
-            'disabled': True
+            'placeholder': 'Nome do Produto'
         })
         self.fields['description'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Descrição do Produto',
-            'rows': 3,
-            'disabled': True
+            'rows': 3
         })
         self.fields['term'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': 'Data do Pedido',
-            'disabled': True
+            'placeholder': 'Data do Pedido'
         })
 
 class StagePictureForm(forms.ModelForm):
